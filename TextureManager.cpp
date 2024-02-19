@@ -1,37 +1,22 @@
 #include "TextureManager.h"
-#include <iostream>
+#include "GameObject.h"
 
+//implement LoadTexture structure:
+SDL_Texture* TextureManager::loadTexture(const char* fileName)
+{
+    //generate the texture: 
+    SDL_Surface* tempSurface = IMG_Load(fileName);
+    //create the texture: 
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface); //instead ren 
+    //clear the surface: 
+    SDL_FreeSurface(tempSurface);
 
-TextureManager* TextureManager::instance = 0;
-
-bool TextureManager::loadTexture(const char* fileName, std::string id, SDL_Renderer* ren) {
-	SDL_Surface* tempSurface = IMG_Load(fileName);
-	if (tempSurface == 0)
-		return false;  // if something went wrong
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, tempSurface);
-	SDL_FreeSurface(tempSurface);
-	if (tex != 0) {
-		textureMap[id] = tex; //store in map
-		return true;
-		std::cout << "Load texture success\n";
-	}
-	return false; // if something went wrong
-	std::cout << "Something went wrong with texture loading\n";
+    return tex; //return the texture (we need to implement it in the PictureLoading.cpp)
 }
 
-void TextureManager::drawTexture(std::string id,
-	int x, int y,
-	int width, int height,
-	SDL_Renderer* ren,
-	SDL_RendererFlip flip) {
-	SDL_Rect srcRect;
-	SDL_Rect destRect;
-	srcRect.x = srcRect.y = 0;
-	srcRect.w = destRect.w = width;
-	srcRect.h = destRect.h = height;
-	destRect.x = x;
-	destRect.y = y;
-	SDL_RenderCopyEx(ren, textureMap[id], &srcRect, &destRect, 0, 0, flip);
+void TextureManager::drawTexture(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest)
+{
+    SDL_RenderCopy(Game::renderer, tex, &src, &dest);
 }
 
 

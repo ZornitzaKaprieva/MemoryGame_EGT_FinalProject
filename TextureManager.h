@@ -4,27 +4,15 @@
 #include <map>
 
 class TextureManager {
-
 public:
-	bool loadTexture(const char* fileName, std::string id, SDL_Renderer* ren);
-	void drawTexture(std::string id,
-		int x, int y,
-		int width, int height,
-		SDL_Renderer* ren,
-		SDL_RendererFlip flip = SDL_FLIP_NONE); //SDL_FLIP_NONE to be used as the default value
-	
-	static TextureManager* Instance()
-	{
-		if (instance == 0)
-		{
-			instance = new TextureManager();
-			return instance;
-		}
-		return instance;
-	}
+	static SDL_Texture* loadTexture(const char* fileName); //this function will return the texture we set (no need to initialize ren (SDL_Renderer* ren)
+	static void drawTexture(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
+
+	static TextureManager* s_tInstance;//един инстанс навсякъде
 
 private:
-	std::map<std::string, SDL_Texture*> textureMap;
-	TextureManager() {}
-	static TextureManager* instance;
+
+	//for visability/flip//to do 
+	//todo
+	std::map<std::string, SDL_Texture*> textureMap; //for easier texture loading
 };

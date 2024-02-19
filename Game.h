@@ -1,27 +1,29 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h> //png, jpeg, etc
-#include "TextureManager.h"
 
-class Game {
+#include<SDL.h>
+#include <SDL_image.h> 
+#include <iostream>
+#include <vector>
+
+class Game
+{
 public:
 	Game();
 	~Game();
-	bool init(const char* title, int xpos, int ypos, int width, int height, int flags);
+	void init(const char* title, int width, int height, bool fullscreen);
 	void handleEvents();
 	void update(); //to make all game objects updateable 
-	void render(); //to load the picture
+	void render(); //to load a visualization 
 	void clean(); //to free memory 
 
-	bool isRunning();
+	bool running() { return isRunning; }
+
+	static SDL_Renderer* renderer; // new: вместо да копираме няколко пойнтера за всеки обект;
+
 private:
-	SDL_Window* window = NULL;
-	SDL_Renderer* renderer = NULL;
-	bool running;
-
-	SDL_Texture* texture = NULL;
-	SDL_Rect sourceRectangle; //the image itself
-	SDL_Rect destinationRectangle;
-
-	int currentFrame; // for movement through frames
+	bool isRunning = false;
+	int cnt = 0;
+	SDL_Window* window;
+	//SDL_Renderer* renderer; //no need because of static SDL_Renderer* renderer;
 };
+
