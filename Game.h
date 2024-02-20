@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include<SDL.h>
 #include <SDL_image.h> 
@@ -18,12 +18,12 @@ public:
 
 	bool running() { return isRunning; }
 
-	static SDL_Renderer* renderer; // new: вместо да копираме няколко пойнтера за всеки обект;
+	static SDL_Renderer* renderer; // new: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ;
 
 private:
 	bool isRunning = false;
 	int cnt = 0;
 	SDL_Window* window;
 	//SDL_Renderer* renderer; //no need because of static SDL_Renderer* renderer;
+	//std::vector<GameObject*> gameObjects;
 };
-

@@ -1,9 +1,11 @@
-#include "Game.h"
+п»ї#include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+//#include "DeckOfCards.h"
+//#include "GameLogic.h"
+#include <vector>
 
-
-//for the player:
+//card objects:
 GameObject* cardBack;
 GameObject* card1;
 GameObject* card2;
@@ -14,10 +16,24 @@ GameObject* card6;
 GameObject* card7;
 GameObject* card8;
 
+/// <game logic: vector with players>
+std::vector<GameObject*> gameObjectsList;
+static void addGameObject(GameObject* gameObject)
+{
+	gameObjectsList.push_back(gameObject);
+}
+static void renderGameObjects(const std::vector<GameObject*>& gameObjectsList)
+{
+	for (int i = 0; i < gameObjectsList.size(); i++) 
+	{
+		        
+		gameObjectsList[i]->renderObj();
+		      
+		    }
+}
+/// </game logic:vector with players>
 
-
-
-SDL_Renderer* Game::renderer = nullptr; //new 6 дефинираме го и го инициализираме с нул, защото не сме инициализрали стл още
+SDL_Renderer* Game::renderer = nullptr; //new 6 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
 
 Game::Game()
 {
@@ -60,21 +76,32 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	}
 
 	//after successfully created window and render:
-	
-	//cardBack (1 bacground (or 1 card to be multiply)
-	cardBack = new GameObject("assets/cards/jungle-01.jpg", 0, 0);
+
+	//cardBack (1 background (or 1 card to be multiply)
+	cardBack = new GameObject("assets/cards/jungle-01.jpg", "jungleB", 0, 0); //jungle.jpg
 	//horizontal (4 cards)
-	card1 = new GameObject("assets/cards/foxGreen.png", 0, 0);
-	card2 = new GameObject("assets/cards/lionBlue.png", 200, 0);
-	card3 = new GameObject("assets/cards/raccoonPink.png", 400, 0);
-	card4 = new GameObject("assets/cards/beaverRed.png", 600, 0);
+	card1 = new GameObject("assets/cards/foxGreen.png", "foxG", 0, 0);
+	gameObjectsList.push_back(card1);
+
+	card2 = new GameObject("assets/cards/lionBlue.png", "lionB", 200, 0);
+	gameObjectsList.push_back(card2);
+
+	card3 = new GameObject("assets/cards/raccoonPink.png", "raccoonP", 400, 0);
+	gameObjectsList.push_back(card3);
+
+	card4 = new GameObject("assets/cards/beaverRed.png", "beaverR", 600, 0);
+	gameObjectsList.push_back(card4);
 
 	////vertical - col1 (3 cards)
-	card5 = new GameObject("assets/cards/skunkOrange.png", 0, 200);
-	card6 = new GameObject("assets/cards/hippoGold.png", 0, 400);
-	card7 = new GameObject("assets/cards/sealOrange.png", 0, 600);
-	card8 = new GameObject("assets/cards/catPink.png", 200, 0);
-	//
+	card5 = new GameObject("assets/cards/skunkOrange.png", "skunk", 0, 200);
+	gameObjectsList.push_back(card5);
+	card6 = new GameObject("assets/cards/hippoGold.png", "hippoG", 200, 200);
+	gameObjectsList.push_back(card6);
+	card7 = new GameObject("assets/cards/sealOrange.png", "sealO", 400, 200);
+	gameObjectsList.push_back(card7);
+	card8 = new GameObject("assets/cards/catPink.png", "catP", 600, 200);
+	gameObjectsList.push_back(card8);
+	////
 	////vertical - col2 (3 cards)
 	//card1 = new GameObject("assets/cards/foxGreen.png", 200, 200);
 	//card2 = new GameObject("assets/cards/lionBlue.png", 200, 400);
@@ -104,6 +131,7 @@ void Game::handleEvents()
 		isRunning = false;
 		break;
 	case SDL_MOUSEBUTTONDOWN: //by clicking with the mouse
+
 		int mx, my;
 		int w, h;
 		SDL_GetWindowSize(window, &w, &h);
@@ -115,24 +143,50 @@ void Game::handleEvents()
 		//to define the coordinates on which, when clicked, the particular image is displayed:
 		if (mx < w / 4 && my < h / 4)
 		{
+			//ok (fox)
 			card1->updateObj();
-			
+
 		}
-		///todo
-		else if (mx >= w / 4 && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
+		else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
 		{
+			//ok (lion)
 			card2->updateObj();
-			
+
 		}
-		else if (mx < 200 && my > h / 2 && my <= h)
+		else if ((mx >= w / 2 && mx < 600) && my < h / 4)
 		{
-			
+			//ok (raccoon)
+			card3->updateObj();
 		}
-		else if (mx > w / 2 && mx <= w && my > h / 2 && my <= h)
+		else if ((mx > 600 && mx <= w) && my < h / 4)
 		{
-			
+			//ok (beaver)
+			card4->updateObj();
 		}
-	
+
+		else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
+		{
+			//ok (skunk)
+			card5->updateObj();
+		}
+		else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
+		{
+			//ok (hippo)
+			card6->updateObj();
+		}
+		else if ((mx > w / 2 && mx < 600 ) && (my >= h / 4 && my < h/2))
+		{
+
+		//ok(seal) 
+			card7->updateObj();
+		}
+		else if ((mx > 600 && mx < w ) && (my >= h / 4 && my < h/2))
+		{
+
+			//(cat) 
+				card8->updateObj();
+		}
+
 	default:
 		break;
 	}
@@ -142,9 +196,8 @@ void Game::update()
 {
 	//with GameObject class:
 	cardBack->updateBack();
-	//card1->updateObj();
-	//card2->updateObj();
-	std::cout << "Update object.\n";
+	//card1->updateObj() //[in case SDL_MOUSEBUTTONDOWN: if-else];
+	//std::cout << "Update object.\n";
 }
 
 void Game::render()
@@ -155,10 +208,12 @@ void Game::render()
 
 
 	cardBack->renderBack();
-	card1->renderObj();
-	card2->renderObj();
-	std::cout << "card/background\n";
-	
+	/*card1->renderObj();
+	card2->renderObj();[...]*/
+
+	renderGameObjects(gameObjectsList);
+	//std::cout << "card/background\n";
+
 
 	SDL_RenderPresent(renderer);
 }

@@ -11,12 +11,13 @@ SDL_Texture* TextureManager::loadTexture(const char* fileName)
     //clear the surface: 
     SDL_FreeSurface(tempSurface);
 
-    return tex; //return the texture (we need to implement it in the PictureLoading.cpp)
+   
+    return tex; //return the texture 
+    
 }
 
 void TextureManager::drawTexture(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest)
 {
     SDL_RenderCopy(Game::renderer, tex, &src, &dest);
 }
-
 
