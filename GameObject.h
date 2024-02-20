@@ -3,7 +3,7 @@
 #include<string>
 
 #include "Game.h"
-//#include"GameLogic.h" //тук или обратно
+//#include"GameLogic.h" //тук или обратно ( #include"GameObject.h" in class GameLogic
 
 class GameObject
 {
@@ -16,12 +16,12 @@ public:
 	void updateBack();
 	void renderBack();
 
-	//from game logic:
+	//? from game logic:
 	//static void addGameObjectGO(GameObject* gameObject); //
 	//static void renderGameObjectsGO(const std::vector<GameObject*>& gameObjects);
 	
 
-	//for bool isFace
+	//? for bool isFace
 	void isFaceUp(bool isFace);
 	
 	//static bool isFace; //before - private non-static

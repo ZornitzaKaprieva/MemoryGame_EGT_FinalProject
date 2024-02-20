@@ -20,11 +20,12 @@ public:
 
 	bool running() { return isRunning; }
 
-	static SDL_Renderer* renderer; 
+	static SDL_Renderer* renderer; //instead of copying the render for each object
 
 private:
 	bool isRunning = false;
 	SDL_Window* window;
 	//SDL_Renderer* renderer; //no need because of static SDL_Renderer* renderer;
-	//std::vector<GameObject*> gameObjects;
+	
+	//? std::vector<GameObject*> gameObjects;
 };
