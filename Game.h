@@ -4,6 +4,8 @@
 #include <SDL_image.h> 
 #include <iostream>
 #include <vector>
+#include"GameObject.h"
+#include"GameLogic.h"
 
 class Game
 {
@@ -18,11 +20,10 @@ public:
 
 	bool running() { return isRunning; }
 
-	static SDL_Renderer* renderer; // new: ������ �� �������� ������� �������� �� ����� �����;
+	static SDL_Renderer* renderer; 
 
 private:
 	bool isRunning = false;
-	int cnt = 0;
 	SDL_Window* window;
 	//SDL_Renderer* renderer; //no need because of static SDL_Renderer* renderer;
 	//std::vector<GameObject*> gameObjects;

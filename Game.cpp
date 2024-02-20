@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-#include "TextureManager.h"
+//#include "TextureManager.h"
 #include "GameObject.h"
 //#include "DeckOfCards.h"
 //#include "GameLogic.h"
@@ -16,7 +16,7 @@ GameObject* card6;
 GameObject* card7;
 GameObject* card8;
 
-/// <game logic: vector with players>
+/// <game logic: vector with cards>
 std::vector<GameObject*> gameObjectsList;
 static void addGameObject(GameObject* gameObject)
 {
@@ -31,9 +31,9 @@ static void renderGameObjects(const std::vector<GameObject*>& gameObjectsList)
 		      
 		    }
 }
-/// </game logic:vector with players>
+/// </game logic:vector with cards>
 
-SDL_Renderer* Game::renderer = nullptr; //new 6 ���������� �� � �� �������������� � ���, ������ �� ��� ������������� ��� ���
+SDL_Renderer* Game::renderer = nullptr; //define and initialize it to null because we haven't initialized sdl yet
 
 Game::Game()
 {
@@ -81,26 +81,31 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	cardBack = new GameObject("assets/cards/jungle-01.jpg", "jungleB", 0, 0); //jungle.jpg
 	//horizontal (4 cards)
 	card1 = new GameObject("assets/cards/foxGreen.png", "foxG", 0, 0);
-	gameObjectsList.push_back(card1);
-
+	gameObjectsList.push_back(card1);// ok with static
+	
 	card2 = new GameObject("assets/cards/lionBlue.png", "lionB", 200, 0);
-	gameObjectsList.push_back(card2);
+	gameObjectsList.push_back(card2); // ok with static
+
 
 	card3 = new GameObject("assets/cards/raccoonPink.png", "raccoonP", 400, 0);
-	gameObjectsList.push_back(card3);
+	gameObjectsList.push_back(card3); // ok with static
 
 	card4 = new GameObject("assets/cards/beaverRed.png", "beaverR", 600, 0);
-	gameObjectsList.push_back(card4);
+	gameObjectsList.push_back(card4); // ok with static
 
 	////vertical - col1 (3 cards)
 	card5 = new GameObject("assets/cards/skunkOrange.png", "skunk", 0, 200);
-	gameObjectsList.push_back(card5);
+	gameObjectsList.push_back(card5);// ok with static
+
 	card6 = new GameObject("assets/cards/hippoGold.png", "hippoG", 200, 200);
-	gameObjectsList.push_back(card6);
+	gameObjectsList.push_back(card6);// ok with static
+
 	card7 = new GameObject("assets/cards/sealOrange.png", "sealO", 400, 200);
-	gameObjectsList.push_back(card7);
+	gameObjectsList.push_back(card7); // ok with static
+
 	card8 = new GameObject("assets/cards/catPink.png", "catP", 600, 200);
-	gameObjectsList.push_back(card8);
+	gameObjectsList.push_back(card8); // ok with static
+
 	////
 	////vertical - col2 (3 cards)
 	//card1 = new GameObject("assets/cards/foxGreen.png", 200, 200);
@@ -146,6 +151,11 @@ void Game::handleEvents()
 			//ok (fox)
 			card1->updateObj();
 
+			/*if (GameObject::isFace = true)
+			{
+				card1->updateObj();
+				GameObject::isFace = false;
+			}*/
 		}
 		else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
 		{
@@ -167,24 +177,24 @@ void Game::handleEvents()
 		else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
 		{
 			//ok (skunk)
-			card5->updateObj();
+			//card5->updateObj();
 		}
 		else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
 		{
 			//ok (hippo)
-			card6->updateObj();
+			//card6->updateObj();
 		}
 		else if ((mx > w / 2 && mx < 600 ) && (my >= h / 4 && my < h/2))
 		{
 
 		//ok(seal) 
-			card7->updateObj();
+			//card7->updateObj();
 		}
 		else if ((mx > 600 && mx < w ) && (my >= h / 4 && my < h/2))
 		{
 
 			//(cat) 
-				card8->updateObj();
+				//card8->updateObj();
 		}
 
 	default:
@@ -196,24 +206,32 @@ void Game::update()
 {
 	//with GameObject class:
 	cardBack->updateBack();
-	//card1->updateObj() //[in case SDL_MOUSEBUTTONDOWN: if-else];
+	
+	// card1, card2, card3, card4 are in case SDL_MOUSEBUTTONDOWN: [if-else];
+	// card1->updateObj();
+	// card2->updateObj();
+	// card3->updateObj();
+	// card4->updateObj();
+	 card5->updateObj();
+	 card6->updateObj();
+	 card7->updateObj();
+	 card8->updateObj();
 	//std::cout << "Update object.\n";
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-
 	//This is where we add all of our textures to be rendered
 
-
 	cardBack->renderBack();
-	/*card1->renderObj();
-	card2->renderObj();[...]*/
 
-	renderGameObjects(gameObjectsList);
+	/*card1->renderObj(); 
+	card2->renderObj();[...]*/ //render each card individually 
+
+	//displays only  updated cards:
+	renderGameObjects(gameObjectsList); // ok with static: no need to render each card individually 
 	//std::cout << "card/background\n";
-
 
 	SDL_RenderPresent(renderer);
 }
