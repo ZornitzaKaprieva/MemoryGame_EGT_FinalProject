@@ -107,6 +107,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	gameObjectsList.push_back(card8); // ok with static
 
 	////
+	// ? 2 vectors X 8 cards or 1 vector X 16 cards
 	////vertical - col2 (3 cards)
 	//card1 = new GameObject("assets/cards/foxGreen.png", 200, 200);
 	//card2 = new GameObject("assets/cards/lionBlue.png", 200, 400);
