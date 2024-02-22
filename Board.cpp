@@ -33,6 +33,10 @@ Board::Board(const char* textureSheet)
 			deckOfCards.back().push_back(lionB);
 			deckOfCards.back().push_back(raccoonP);
 			deckOfCards.back().push_back(beaverR);
+			deckOfCards.back().push_back(skunkO);
+			deckOfCards.back().push_back(hippoG);
+			deckOfCards.back().push_back(sealO);
+			deckOfCards.back().push_back(catP);
 			
 
 			/*deckOfCards.back().push_back(foxG);
@@ -43,30 +47,18 @@ Board::Board(const char* textureSheet)
 		}
 	}
 
-
 }
 
 //update card:
 void Board::update()
 {
-	//srcRect.h = 800;
-	//srcRect.w = 800;
-	//srcRect.x = 0;
-	//srcRect.y = 0;
-
-	//destRect.x = 0;
-	//destRect.y = 0;
-	//destRect.w = srcRect.w;
-	//destRect.h = srcRect.h;
-
-	//SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 }
 
 //render card:
 void Board::render()
 {
 
-	//here and in update()
+	//why here instead in update()
 	srcRect.h = 800;
 	srcRect.w = 800;
 	srcRect.x = 0;
@@ -78,55 +70,96 @@ void Board::render()
 	destRect.h = srcRect.h;
 
 	SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
-	/*foxG->render();
-	lionB->render();
-	raccoonP->render();
-	beaverR->render();*/
-
-	for (unsigned int i = 0; i < deckOfCards.size(); i++)
-	{
-		for (unsigned int j = 0; i < deckOfCards.size(); i++) //deckOfCards[i].size() - 1
-		{
-			deckOfCards[0][0]->render();
-			deckOfCards[0][1]->render();
-			//deckOfCards[i][j]->render();
-			// 
-			//if (deckOfCards[i][j] == foxG)
-				//foxG->render();
-
-		}
-	}
-	
+	//foxG->render(); //ok
 	//deckOfCards[0][0]->render(); //ok
-	//deckOfCards[0][1]->render(); //
-	//deckOfCards[0][2]->render(); //
-	//deckOfCards[0][3]->render(); //
 
+	vectorRender(deckOfCards); //ok
 
 	
-	
-	/*skunkO->render();
-	hippoG->render();
-	sealO->render();
-	catP->render();*/
 }
 
+void Board::vectorRender(std::vector<std::vector<Card*>> deckOfCards) //vectorRender(deckOfCards);
+{
+	this->deckOfCards = deckOfCards;
+	for (unsigned int i = 0; i < 4; i++)  // deckOfCards.size()
+	{
+		for (unsigned int j = 0; j < 16; j++) //deckOfCards[i].size() 
+		{
+			deckOfCards[i][j]->render();
+			//if (deckOfCards[i][j] == foxG)
+				//foxG->render();
+			
+		}
+	}
+}
 
-//TODO:
-//void Board::vectorRender(std::vector<std::vector<Card*>> deckOfCards) //vectorRender(deckOfCards);
-//{
-//	this->deckOfCards = deckOfCards;
-//	for (unsigned int i = 0; i < deckOfCards.size(); i++) 
-//	{
-//		for (unsigned int j = 0; i < deckOfCards.size(); i++) //deckOfCards[i].size() - 1
-//		{
-//			deckOfCards[i][j]->render();
-//			//if (deckOfCards[i][j] == foxG)
-//				//foxG->render();
-//			
-//		}
-//	}
-//}
+void Board::mouseClicking()
+{
+
+	//from Game.cpp
+	
+	SDL_Event event;
+
+	SDL_PollEvent(&event);
+
+	event.type = SDL_MOUSEBUTTONDOWN; //by clicking with the mouse
+		
+			int mx, my;
+			int w = 800, h = 800;
+			
+			std::cout << "Screen size: " << w << " / " << h << " ";
+
+			SDL_GetMouseState(&mx, &my); //mouse coordinates
+			std::cout << "Coordinates: " << mx << " / " << my << std::endl;
+
+			//to define the coordinates on which, when clicked, the particular image is displayed:
+			if (mx < w / 4 && my < h / 4)
+			{
+				// (fox)
+				
+			}
+			else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
+			{
+				// (lion)
+				
+
+			}
+			else if ((mx >= w / 2 && mx < 600) && my < h / 4)
+			{
+				// (raccoon)
+				
+			}
+			else if ((mx > 600 && mx <= w) && my < h / 4)
+			{
+				// (beaver)
+				
+			}
+
+			else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
+			{
+				// (skunk)
+				
+			}
+			else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
+			{
+				// (hippo)
+				
+			}
+			else if ((mx > w / 2 && mx < 600) && (my >= h / 4 && my < h / 2))
+			{
+
+				//(seal) 
+					
+			}
+			else if ((mx > 600 && mx < w) && (my >= h / 4 && my < h / 2))
+			{
+				//(cat) 		
+			}
+	}
+
+
+		
+
 
 Board::~Board()
 {

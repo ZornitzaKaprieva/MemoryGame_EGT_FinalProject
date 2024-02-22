@@ -52,6 +52,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 void Game::handleEvents()
 {
+	
+
 	SDL_Event event;
 
 	SDL_PollEvent(&event);
@@ -62,59 +64,14 @@ void Game::handleEvents()
 		std::cout << "QUIT event\n";
 		isRunning = false;
 		break;
+
+		//TODO: 
+		
 	case SDL_MOUSEBUTTONDOWN: //by clicking with the mouse
+		
+	 board->mouseClicking();
 
-		int mx, my;
-		int w, h;
-		SDL_GetWindowSize(window, &w, &h);
-		std::cout << "Screen size: " << w << " / " << h << " ";
-
-		SDL_GetMouseState(&mx, &my); //mouse coordinates
-		std::cout << "Coordinates: " << mx << " / " << my << std::endl;
-
-		//to define the coordinates on which, when clicked, the particular image is displayed:
-		if (mx < w / 4 && my < h / 4)
-		{
-			// (fox)
-			
-		}
-		else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
-		{
-			// (lion)
-			
-
-		}
-		else if ((mx >= w / 2 && mx < 600) && my < h / 4)
-		{
-			// (raccoon)
-			
-		}
-		else if ((mx > 600 && mx <= w) && my < h / 4)
-		{
-			// (beaver)
-			
-		}
-
-		else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
-		{
-			// (skunk)
-			
-		}
-		else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
-		{
-			// (hippo)
-			
-		}
-		else if ((mx > w / 2 && mx < 600) && (my >= h / 4 && my < h / 2))
-		{
-
-			//(seal) 
-				
-		}
-		else if ((mx > 600 && mx < w) && (my >= h / 4 && my < h / 2))
-		{
-			//(cat) 		
-		}
+	 break;
 
 	default:
 		break;

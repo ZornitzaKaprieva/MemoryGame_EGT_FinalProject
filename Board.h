@@ -7,7 +7,12 @@
 class Board
 {
 public:
-	Board(const char* textureSheet); //no need for SDL_Renderer* ren
+	Board() {};
+	Board(const char* textureSheet);
+
+	//TODO:
+	void mouseClicking(); //modified from Game.cpp:
+	//no need for SDL_Renderer* ren
 	~Board();
 
 	void update(); //to update an already created card
@@ -16,11 +21,13 @@ public:
 	//to render from vector
 	void vectorRender(std::vector<std::vector<Card*> >deckOfCards);
 	
+	bool running() { return isRunning; }
 	//TODO: (from DeckOfCards)
 	//void shuffle(); // shuffles cards in deck
 	//void deal(); // deals shuffled cards
 
 private:
+	bool isRunning = false;
 	//initialize each card individually:
 	Card* foxG; 
 	Card* lionB;
