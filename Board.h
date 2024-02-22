@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include<string>
+#include<vector>
 #include "Card.h"
 
 class Board
@@ -11,6 +12,9 @@ public:
 
 	void update(); //to update an already created card
 	void render(); //specific behavior
+
+	//to render from vector
+	void vectorRender(std::vector<std::vector<Card*> >deckOfCards);
 	
 	//TODO: (from DeckOfCards)
 	//void shuffle(); // shuffles cards in deck
@@ -26,6 +30,9 @@ private:
 	Card* hippoG;
 	Card* sealO;
 	Card* catP;
+
+	//vector of vectors (arr[][]-like)
+	std::vector<std::vector<Card*> >deckOfCards; 
 
 	int xpos;
 	int ypos;
