@@ -8,17 +8,16 @@ Board::Board(const char* textureSheet)
 
 
 	//initialize each card that will be used:
-	
+
 	//TODO to replace with vector:
-	foxG = new Card("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, true);
+	/*foxG = new Card("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, true);
 	lionB = new Card("assets/cards/lionBlue.png", "assets/cards/jungle.jpg","lionB", 200, 0, true);
 	raccoonP = new Card("assets/cards/raccoonPink.png", "assets/cards/jungle.jpg","raccoonP", 400, 0, true);
 	beaverR = new Card("assets/cards/beaverRed.png", "assets/cards/jungle.jpg","beaverR", 600, 0, true);
 	skunkO = new Card("assets/cards/skunkOrange.png", "assets/cards/jungle.jpg","skunkO", 0, 200, true);
 	hippoG = new Card("assets/cards/hippoGold.png", "assets/cards/jungle.jpg","hippoG", 200, 200, true);
 	sealO = new Card("assets/cards/sealOrange.png", "assets/cards/jungle.jpg","sealO", 400, 200, true);
-	catP = new Card("assets/cards/catPink.png", "assets/cards/jungle.jpg","catP", 600, 200, true);
-
+	catP = new Card("assets/cards/catPink.png", "assets/cards/jungle.jpg","catP", 600, 200, true);*/
 
 	//to fill std::vector<Card*> deckOfCards:
 
@@ -28,8 +27,20 @@ Board::Board(const char* textureSheet)
 		deckOfCards.push_back(newRow); //to add a new row in each iteration
 		for (int j = 0; j < 4; j++) //to add new card in each iteration (4x4)
 		{
-			//foxG = new Card("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, true);
-			deckOfCards.back().push_back(foxG);
+			//TODO: a principle that randomizes the cards
+			//IDEA: instead of "foxG" always being "assets/cards/foxGreen.png" randomly decide that it won't be a fox, but something else
+			//string member - card knows what its id is
+			foxG = new Card("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, true);
+			lionB = new Card("assets/cards/lionBlue.png", "assets/cards/jungle.jpg", "lionB", 200, 0, true);
+			raccoonP = new Card("assets/cards/raccoonPink.png", "assets/cards/jungle.jpg", "raccoonP", 400, 0, true);
+			beaverR = new Card("assets/cards/beaverRed.png", "assets/cards/jungle.jpg", "beaverR", 600, 0, true);
+			skunkO = new Card("assets/cards/skunkOrange.png", "assets/cards/jungle.jpg", "skunkO", 0, 200, true);
+			hippoG = new Card("assets/cards/hippoGold.png", "assets/cards/jungle.jpg", "hippoG", 200, 200, true);
+			sealO = new Card("assets/cards/sealOrange.png", "assets/cards/jungle.jpg", "sealO", 400, 200, true);
+			catP = new Card("assets/cards/catPink.png", "assets/cards/jungle.jpg", "catP", 600, 200, true);
+			//foxG->switchFaceBack();
+
+			deckOfCards.back().push_back(foxG); //in the last added row (.back()) push a card (.push_back(foxG);)
 			deckOfCards.back().push_back(lionB);
 			deckOfCards.back().push_back(raccoonP);
 			deckOfCards.back().push_back(beaverR);
@@ -37,25 +48,18 @@ Board::Board(const char* textureSheet)
 			deckOfCards.back().push_back(hippoG);
 			deckOfCards.back().push_back(sealO);
 			deckOfCards.back().push_back(catP);
-			
-
-			/*deckOfCards.back().push_back(foxG);
-			deckOfCards.back().push_back(lionB);
-			deckOfCards.back().push_back(raccoonP);
-			deckOfCards.back().push_back(beaverR);*/
-
 		}
 	}
-
 }
 
 //update card:
 void Board::update()
 {
+	//?
 }
 
 //render card:
-void Board::render()
+void Board::renderCard()
 {
 
 	//why here instead in update()
@@ -66,7 +70,7 @@ void Board::render()
 
 	destRect.x = 0;
 	destRect.y = 0;
-	destRect.w = srcRect.w; 
+	destRect.w = srcRect.w;
 	destRect.h = srcRect.h;
 
 	SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
@@ -75,20 +79,24 @@ void Board::render()
 
 	vectorRender(deckOfCards); //ok
 
-	
 }
 
-void Board::vectorRender(std::vector<std::vector<Card*>> deckOfCards) //vectorRender(deckOfCards);
+void Board::vectorRender(std::vector<std::vector<Card*>> deckOfCards)
 {
+
+	int randomIndexI = rand() % 4;
+	int randomIndexY = rand() % 16;
 	this->deckOfCards = deckOfCards;
 	for (unsigned int i = 0; i < 4; i++)  // deckOfCards.size()
 	{
 		for (unsigned int j = 0; j < 16; j++) //deckOfCards[i].size() 
 		{
-			deckOfCards[i][j]->render();
-			//if (deckOfCards[i][j] == foxG)
-				//foxG->render();
-			
+			//map for raondomize?
+			deckOfCards[i][j]->getID();
+			deckOfCards[i][j]->renderCard();
+
+			//the cards bounce:
+				//deckOfCards[randomIndexI][randomIndexY]->renderCard();
 		}
 	}
 }
@@ -97,68 +105,64 @@ void Board::mouseClicking()
 {
 
 	//from Game.cpp
-	
-	SDL_Event event;
 
-	SDL_PollEvent(&event);
+	SDL_Event event1;
 
-	event.type = SDL_MOUSEBUTTONDOWN; //by clicking with the mouse
-		
-			int mx, my;
-			int w = 800, h = 800;
-			
-			std::cout << "Screen size: " << w << " / " << h << " ";
+	SDL_PollEvent(&event1);
 
-			SDL_GetMouseState(&mx, &my); //mouse coordinates
-			std::cout << "Coordinates: " << mx << " / " << my << std::endl;
+	event1.type = SDL_MOUSEBUTTONDOWN; //by clicking with the mouse
 
-			//to define the coordinates on which, when clicked, the particular image is displayed:
-			if (mx < w / 4 && my < h / 4)
-			{
-				// (fox)
-				
-			}
-			else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
-			{
-				// (lion)
-				
+	int mx, my;
+	int w = 800, h = 800;
 
-			}
-			else if ((mx >= w / 2 && mx < 600) && my < h / 4)
-			{
-				// (raccoon)
-				
-			}
-			else if ((mx > 600 && mx <= w) && my < h / 4)
-			{
-				// (beaver)
-				
-			}
+	std::cout << "Screen size: " << w << " / " << h << " ";
 
-			else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
-			{
-				// (skunk)
-				
-			}
-			else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
-			{
-				// (hippo)
-				
-			}
-			else if ((mx > w / 2 && mx < 600) && (my >= h / 4 && my < h / 2))
-			{
+	SDL_GetMouseState(&mx, &my); //mouse coordinates
+	std::cout << "Coordinates: " << mx << " / " << my << std::endl;
 
-				//(seal) 
-					
-			}
-			else if ((mx > 600 && mx < w) && (my >= h / 4 && my < h / 2))
-			{
-				//(cat) 		
-			}
+	//to define the coordinates on which, when clicked, the particular image is displayed:
+	if (mx < w / 4 && my < h / 4)
+	{
+
+	}
+	else if ((mx >= w / 4 && mx < w / 2) && my < h / 4)//(mx < w / 4 && (my >= h / 4 && my < h/2))
+	{
+		// (lion)
+
+
+	}
+	else if ((mx >= w / 2 && mx < 600) && my < h / 4)
+	{
+		// (raccoon)
+
+	}
+	else if ((mx > 600 && mx <= w) && my < h / 4)
+	{
+		// (beaver)
+
 	}
 
+	else if (mx < w / 4 && (my >= h / 4 && my < h / 2))
+	{
+		// (skunk)
 
-		
+	}
+	else if ((mx > w / 4 && mx < w / 2) && (my >= h / 4 && my < h / 2))
+	{
+		// (hippo)
+
+	}
+	else if ((mx > w / 2 && mx < 600) && (my >= h / 4 && my < h / 2))
+	{
+
+		//(seal) 
+
+	}
+	else if ((mx > 600 && mx < w) && (my >= h / 4 && my < h / 2))
+	{
+		//(cat) 		
+	}
+}
 
 
 Board::~Board()

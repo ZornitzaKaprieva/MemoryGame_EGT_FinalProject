@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 		frameStart = SDL_GetTicks(); //the number of milliseconds since the SDL library initialized.
 		game->handleEvents(); //TODO board->handleEvents();
 		game->update();
-		game->render();
+		game->renderCard();
 
 		frameTime = SDL_GetTicks() - frameStart; //how long it takes to handling the events, update the objects, and render them
 		if (frameDelay > frameTime) //check if we need to delay this frame

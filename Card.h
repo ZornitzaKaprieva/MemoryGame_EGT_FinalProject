@@ -6,20 +6,29 @@ class Card
 public:
 	//constructor for a single card with 6 parameters: texture for face, texture for back, id (name), xpos, ypos, bool to check is it face or back:
 	Card(const char* faceTexture, const char* backTexture, std::string id, int x, int y, bool isFace);
-	void render();
+	void renderCard();
 	
-private:
-	//separate methods for the back and face of the card:
-	void updateBack(); //void drawBack();
-	void updateFace(); //void drawFace();
-
 	//TODO:
 	//function that handles the isFalse variable:
 	void switchFaceBack(); //void switchFaceBack();
 	void setIsFace(bool face);
 	bool getIsFace();
+	std::string getID(); //new: for rondomize cards in vector 
+
+	//void mouseClicking();//modified from Board.cpp
 
 	~Card();
+
+private:
+	//separate methods for the back and face of the card:
+	void updateBack(); //void drawBack();
+	void updateFace(); //void drawFace();
+
+
+public:
+	//new:
+	std::map<std::string, SDL_Texture*> cardMap;
+
 private:
 	std::string id;
 	int xpos;

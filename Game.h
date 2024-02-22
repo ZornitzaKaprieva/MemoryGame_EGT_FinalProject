@@ -15,7 +15,7 @@ public:
 	void init(const char* title, int width, int height, bool fullscreen);
 	void handleEvents();
 	void update(); //Here we add the rendered board. Individual cards are rendered in class Board
-	void render(); //to load a visualization 
+	void renderCard(); //to load a visualization 
 	void clean(); //to free memory 
 
 	bool running() { return isRunning; }

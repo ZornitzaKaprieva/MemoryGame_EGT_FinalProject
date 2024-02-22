@@ -11,15 +11,19 @@ public:
 	Board(const char* textureSheet);
 
 	//TODO:
-	void mouseClicking(); //modified from Game.cpp:
+	//void mouseClicking(); //modified from Game.cpp:
 	//no need for SDL_Renderer* ren
 	~Board();
 
 	void update(); //to update an already created card
-	void render(); //specific behavior
+	void renderCard(); //specific behavior
 
 	//to render from vector
 	void vectorRender(std::vector<std::vector<Card*> >deckOfCards);
+
+	void mouseClicking();
+
+	
 	
 	bool running() { return isRunning; }
 	//TODO: (from DeckOfCards)
@@ -27,6 +31,8 @@ public:
 	//void deal(); // deals shuffled cards
 
 private:
+
+
 	bool isRunning = false;
 	//initialize each card individually:
 	Card* foxG; 
@@ -49,4 +55,7 @@ private:
 
 	//bool for the constructor:
 	bool isFace;
+
+	
+
 };

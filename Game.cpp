@@ -53,7 +53,6 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 void Game::handleEvents()
 {
 	
-
 	SDL_Event event;
 
 	SDL_PollEvent(&event);
@@ -65,12 +64,9 @@ void Game::handleEvents()
 		isRunning = false;
 		break;
 
-		//TODO: 
-		
 	case SDL_MOUSEBUTTONDOWN: //by clicking with the mouse
 		
-	 board->mouseClicking();
-
+	 board->mouseClicking(); //from board (hapw to get this method from Card.cpp
 	 break;
 
 	default:
@@ -83,11 +79,11 @@ void Game::update()
 	board->update();
 }
 
-void Game::render() //Here we add a rendering board. Individual cards are rendered in class Board
+void Game::renderCard() //Here we add a rendering board. Individual cards are rendered in class Board
 {
 	SDL_RenderClear(renderer);
 
-	board->render();
+	board->renderCard();
 
 	SDL_RenderPresent(renderer);
 }
