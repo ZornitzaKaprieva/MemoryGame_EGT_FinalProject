@@ -4,8 +4,8 @@
 #include <SDL_image.h> 
 #include <iostream>
 #include <vector>
-#include"GameObject.h"
-#include"GameLogic.h"
+
+#include"Board.h"
 
 class Game
 {
@@ -14,7 +14,7 @@ public:
 	~Game();
 	void init(const char* title, int width, int height, bool fullscreen);
 	void handleEvents();
-	void update(); //to make all game objects updateable 
+	void update(); //Here we add the rendered board. Individual cards are rendered in class Board
 	void render(); //to load a visualization 
 	void clean(); //to free memory 
 
@@ -25,7 +25,7 @@ public:
 private:
 	bool isRunning = false;
 	SDL_Window* window;
+	Board* board; //separate initialization for each board
+
 	//SDL_Renderer* renderer; //no need because of static SDL_Renderer* renderer;
-	
-	//? std::vector<GameObject*> gameObjects;
 };

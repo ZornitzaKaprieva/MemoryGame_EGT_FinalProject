@@ -1,7 +1,7 @@
 #include "TextureManager.h"
-//#include "GameObject.h"
+#include "Game.h"
 
-//implement LoadTexture structure:
+////implement LoadTexture structure:
 SDL_Texture* TextureManager::loadTexture(const char* fileName)
 {
     //generate the texture: 
@@ -11,7 +11,7 @@ SDL_Texture* TextureManager::loadTexture(const char* fileName)
     //clear the surface: 
     SDL_FreeSurface(tempSurface);
 
-   
+
     return tex; //return the texture 
-    
+
 }
