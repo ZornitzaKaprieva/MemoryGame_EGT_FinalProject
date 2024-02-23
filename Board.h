@@ -7,54 +7,39 @@
 class Board
 {
 public:
-	Board() {};
-	Board(const char* textureSheet);
+	Board() {}; //default constructor 
+	Board(const char* textureSheet); //constructor with parameter texture
 
-	//TODO:
-	//void mouseClicking(); //modified from Game.cpp:
-	//no need for SDL_Renderer* ren
-	~Board();
+	~Board(); //destructor
 
 	void update(); //to update an already created card
 	void renderCard(); //specific behavior
 
-	//to render from vector
-	void vectorRender(std::vector<std::vector<Card*> >deckOfCards);
+	
+	void cardsArrRender(); //to render from array
 
 	void mouseClicking();
-
-	
 	
 	bool running() { return isRunning; }
-	//TODO: (from DeckOfCards)
+
+	//TODO:
+	//void switchFaceBack();
 	//void shuffle(); // shuffles cards in deck
 	//void deal(); // deals shuffled cards
 
 private:
-
-
-	bool isRunning = false;
-	//initialize each card individually:
-	Card* foxG; 
-	Card* lionB;
-	Card* raccoonP;
-	Card* beaverR;
-	Card* skunkO;
-	Card* hippoG;
-	Card* sealO;
-	Card* catP;
-
-	//vector of vectors (arr[][]-like)
-	std::vector<std::vector<Card*> >deckOfCards; 
-
+	Card deckOfCards[4][4]; //array to put all the cards in one deck
+	std::string selectedCard; //to check if card1 and card2 are equal
+	bool isFace; //bool for the constructor
 	int xpos;
 	int ypos;
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
 	SDL_Renderer* renderer;
+	bool isRunning = false; //bool for main.cpp 
 
-	//bool for the constructor:
-	bool isFace;
+	
+	
 
 	
 

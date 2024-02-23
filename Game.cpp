@@ -2,7 +2,6 @@
 #include "Board.h"
 #include "Card.h"
 
-
 SDL_Renderer* Game::renderer = nullptr; //define and initialize it to null because we haven't initialized sdl yet
 
 Game::Game()
@@ -66,7 +65,7 @@ void Game::handleEvents()
 
 	case SDL_MOUSEBUTTONDOWN: //by clicking with the mouse
 		
-	 board->mouseClicking(); //from board (hapw to get this method from Card.cpp
+	 board->mouseClicking(); //from class Board
 	 break;
 
 	default:

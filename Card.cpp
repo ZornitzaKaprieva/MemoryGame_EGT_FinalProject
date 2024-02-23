@@ -5,17 +5,10 @@ Card::Card(const char* faceTextureSheet, const char* backTextureSheet, std::stri
 {
 	FaceTexture = TextureManager::loadTexture(faceTextureSheet); //to load the face texture
 	BackTexture = TextureManager::loadTexture(backTextureSheet); //to load the back texture
-
 	this->id = id;
 	this->xpos = x;
 	this->ypos = y;
-
 	this->isFace = isFace; 
-	this->id = id;
-
-	//new:
-	cardMap[id] = FaceTexture; //to randomize in Board.cpp
-
 }
 
 //to load BackTexture
@@ -30,7 +23,6 @@ void Card::updateBack()
 	destRect.y = ypos;
 	destRect.w = srcRect.w;
 	destRect.h = srcRect.h;
-
 
 	SDL_RenderCopy(Game::renderer, BackTexture, &srcRect, &destRect);
 }
@@ -50,6 +42,12 @@ void Card::updateFace()
 	destRect.h = srcRect.h;
 
 	SDL_RenderCopy(Game::renderer, FaceTexture, &srcRect, &destRect);
+}
+
+void Card::setPos(int x, int y) //to be able to set the positions of each card
+{
+	xpos = x;
+	ypos = y;
 }
 
 void Card::renderCard()
@@ -82,9 +80,9 @@ void Card::switchFaceBack()
 
 	event2.type = SDL_MOUSEBUTTONDOWN;
 
-	std::cout << "event2.type = SDL_MOUSEBUTTONDOWN;" << std::endl;
+	std::cout << "event2.type = SDL_MOUSEBUTTONDOWN;" << std::endl;*/
 
-	if (this->isFace = false)
+	/*if (this->isFace = false)
 		setIsFace(true);
 
 	if (this->isFace = true)
