@@ -12,6 +12,9 @@ public:
 
 	~Board(); //destructor
 
+	void randomizeX();
+	void randomizeY();
+
 	void update(); //to update an already created card
 	void renderCard(); //specific behavior
 

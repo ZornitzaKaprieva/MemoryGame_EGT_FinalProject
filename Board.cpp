@@ -1,23 +1,23 @@
 ﻿#include "Board.h"
 #include "Game.h"
 #include <string>
+#include <algorithm> //for randomize 
+#include<cstdlib> //for randomize 
 
 Board::Board(const char* textureSheet)
 {
 	objTexture = TextureManager::loadTexture(textureSheet);
 
-	//initialize selectedCard as empty string
-	selectedCard = "";
 	//initialize each card that will be used:
-	Card foxG("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, true);
-	Card lionB("assets/cards/lionBlue.png", "assets/cards/jungle.jpg","lionB", 0, 0, true);
-	Card raccoonP("assets/cards/raccoonPink.png", "assets/cards/jungle.jpg","raccoonP", 0, 0, true);
-	Card beaverR("assets/cards/beaverRed.png", "assets/cards/jungle.jpg","beaverR", 0, 0, true);
-	Card skunkO("assets/cards/skunkOrange.png", "assets/cards/jungle.jpg","skunkO", 0, 0, true);
-	Card hippoG("assets/cards/hippoGold.png", "assets/cards/jungle.jpg","hippoG", 0, 0, true);
-	Card sealO("assets/cards/sealOrange.png", "assets/cards/jungle.jpg","sealO", 0, 0, true);
-	Card catP("assets/cards/catPink.png", "assets/cards/jungle.jpg","catP", 0, 0, true);
-	
+	Card foxG("assets/cards/foxGreen.png", "assets/cards/jungle.jpg", "foxG", 0, 0, false);
+	Card lionB("assets/cards/lionBlue.png", "assets/cards/jungle.jpg", "lionB", 0, 0, false);
+	Card raccoonP("assets/cards/raccoonPink.png", "assets/cards/jungle.jpg", "raccoonP", 0, 0, false);
+	Card beaverR("assets/cards/beaverRed.png", "assets/cards/jungle.jpg", "beaverR", 0, 0, false);
+	Card skunkO("assets/cards/skunkOrange.png", "assets/cards/jungle.jpg", "skunkO", 0, 0, false);
+	Card hippoG("assets/cards/hippoGold.png", "assets/cards/jungle.jpg", "hippoG", 0, 0, false);
+	Card sealO("assets/cards/sealOrange.png", "assets/cards/jungle.jpg", "sealO", 0, 0, false);
+	Card catP("assets/cards/catPink.png", "assets/cards/jungle.jpg", "catP", 0, 0, false);
+
 	deckOfCards[0][0] = foxG;
 	deckOfCards[0][1] = lionB;
 	deckOfCards[0][2] = raccoonP;
@@ -36,15 +36,26 @@ Board::Board(const char* textureSheet)
 	deckOfCards[3][0] = skunkO;
 	deckOfCards[3][1] = hippoG;
 	deckOfCards[3][2] = sealO;
-	deckOfCards[3][3] = catP;	
-	
+	deckOfCards[3][3] = catP;
+
+	selectedCard = ""; //initializes the selected card as an empty string so it can take the value of the first open card and compare it to the second
+
+	srand(time(0)); //to randomize the card order for each new game
+	// TODO:
+	//+ функция в initBoard: затваря всички карти и разбърква  с ранд (от 0  до 4 с модулно деление 
+	// (трябва да се разбъркат определен брой пъти, да се изтеглят индекси за 2 кутийки и после да се разменят
+	// връщаме с ранда случайна число - мястото й засега е в конструктора, после ще се променя  
+
 	//to set a position in the cards of the deckOfCards:
 	for (int i = 0; i < 4; i++) //4 columns
-	{	
-		for (int j = 0; j < 4; j++) //to add new card in each iteration (4x4)
+	{
+		for (int j = 0; j < 4; j++) //to set card position in each iteration (4x4)
 		{
 			//TODO: a principle that randomizes the cards
-			deckOfCards[i][j].setPos(j * 200, i * 200);
+			int randomIndexI = rand() % 4; //numbers are random from 0 to 3 but can be repeated
+			int randomIndexY = rand() % 4; //numbers are random from 0 to 3 but can be repeated
+
+			deckOfCards[randomIndexI][randomIndexY].setPos(j * 200, i * 200);
 		}
 	}
 }
@@ -79,19 +90,12 @@ void Board::renderCard()
 void Board::cardsArrRender()
 {
 
-	//int randomIndexI = rand() % 4;
-	//int randomIndexY = rand() % 16;
-	//this->deckOfCards = deckOfCards;
 	for (unsigned int i = 0; i < 4; i++)  // deckOfCards.size()
 	{
 		for (unsigned int j = 0; j < 4; j++) //deckOfCards[i].size() 
 		{
-			//map for raondomize?
 			deckOfCards[i][j].getID();
 			deckOfCards[i][j].renderCard();
-
-			//the cards bounce:
-				//deckOfCards[randomIndexI][randomIndexY]->renderCard();
 		}
 	}
 }
@@ -100,7 +104,6 @@ void Board::mouseClicking()
 {
 
 	//from Game.cpp
-
 	SDL_Event event1;
 	SDL_PollEvent(&event1);
 
@@ -108,8 +111,6 @@ void Board::mouseClicking()
 
 	int mx, my;
 	int w = 800, h = 800;
-
-	
 
 	SDL_GetMouseState(&mx, &my); //mouse coordinates
 	std::cout << "Coordinates: " << mx << " / " << my << std::endl;
@@ -120,40 +121,33 @@ void Board::mouseClicking()
 	//ako select 
 	// броиш с дилей 1 сек
 
-	//+ фунцоя initBoard: затваря всички карти и разбърква  с ранд (от 0  до 4 с модулно деление (трябва да се рабъркат определ брой пъти, да се изтеглят индекси за 2 кутийки и после да се разменят
-	// //връщаме с ранда случайна число - мястото й засега е в конструктора, после ще се промения  
 	if (selectedCard.empty())
 	{
 		std::cout << "card1" << std::endl;
 		selectedCard = deckOfCards[indexY][indexX].getID();
+
 	}
 	else
 	{
 		std::cout << "card2" << std::endl;
 		// towa se ograjda w otdelen if
-			if (selectedCard == deckOfCards[indexY][indexX].getID())
-			{
-				//win
-				//open card
-				std::cout << "win " << std::endl;
+		if (selectedCard == deckOfCards[indexY][indexX].getID())
+		{
+			//deckOfCards[indexY][indexX].setIsFace(true); //witout delay
+			//open card
+			std::cout << "win " << std::endl;
+		}
+		else
+		{
+			//close: //deckOfCards[indexY][indexX].setIsFace(true); //with delay 
+			//затваряме предходната карта, отваряме нова карта 
 
-			}
-			else
-			{
-				//close
-				//затваряме предходанта карта, отваряме нова катрта 
-				//сет селцтедЦард - празен стринфг => 
+			std::cout << "lose  " << std::endl;
+		}
 
-				std::cout << "lose  " << std::endl;
-				
-
-			}
-
-			selectedCard = "";
-
+		selectedCard = "";
 	}
-	
-	
+
 	std::cout << "Screen size: " << w << " / " << h << " " << "Index x-y: " << indexX << " " << indexY << selectedCard << "\n";
 }
 
