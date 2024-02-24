@@ -6,9 +6,9 @@ class Card
 public:
 	Card() {} //default constructor 
 	Card(const char* faceTexture, const char* backTexture, std::string name, int x, int y, bool isFace); //constructor for a single card with 6 parameters
-	
+
 	void renderCard(); // for displaying cards(face and back)
-	
+
 	//TODO:
 	void switchFaceBack(); //function that handles the isFalse variable:
 	void setIsFace(bool face); //setter for bool isFace
@@ -22,7 +22,7 @@ public:
 
 	~Card(); //destructor
 
-	
+
 
 private:
 	//separate methods for the back and face of the card:
@@ -37,7 +37,6 @@ private:
 	bool isFace;
 	SDL_Texture* FaceTexture; //texture for card`s back
 	SDL_Texture* BackTexture; //texture for card`s face
-	SDL_Rect srcRect, destRect; 
+	SDL_Rect srcRect, destRect;
 	SDL_Renderer* renderer;
 };
-

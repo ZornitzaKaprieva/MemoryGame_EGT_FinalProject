@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿
+#pragma once
 
 #include<string>
 #include<vector>
@@ -15,11 +16,11 @@ public:
 	void update(); //to update an already created card
 	void renderCard(); //specific behavior
 
-	
+
 	void cardsArrRender(); //to render from array
 
 	void mouseClicking();
-	
+
 	bool running() { return isRunning; }
 
 private:
@@ -35,10 +36,5 @@ private:
 	SDL_Rect srcRect, destRect;
 	SDL_Renderer* renderer;
 	bool isRunning = false; //bool for main.cpp 
-
-	
-	
-
-	
 
 };

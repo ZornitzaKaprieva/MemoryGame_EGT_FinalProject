@@ -8,14 +8,14 @@ Card::Card(const char* faceTextureSheet, const char* backTextureSheet, std::stri
 	this->id = id;
 	this->xpos = x;
 	this->ypos = y;
-	this->isFace = isFace; 
+	this->isFace = isFace;
 }
 
 //to load BackTexture
 void Card::updateBack()
 {
-	srcRect.h = 200; 
-	srcRect.w = 200; 
+	srcRect.h = 200;
+	srcRect.w = 200;
 	srcRect.x = 0;
 	srcRect.y = 0;
 
@@ -31,10 +31,10 @@ void Card::updateBack()
 //to load FaceTexture
 void Card::updateFace()
 {
-	srcRect.h = 200; 
-	srcRect.w = 200; 
-	srcRect.x = 0; 
-	srcRect.y = 0; 
+	srcRect.h = 200;
+	srcRect.w = 200;
+	srcRect.x = 0;
+	srcRect.y = 0;
 
 	destRect.x = xpos;
 	destRect.y = ypos;
@@ -193,4 +193,3 @@ std::string Card::getID()
 Card::~Card()
 {
 }
-
