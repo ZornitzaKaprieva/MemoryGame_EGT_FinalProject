@@ -4,6 +4,8 @@
 #include<string>
 #include<vector>
 #include "Card.h"
+#include "Player.h"
+#include "SoundManager.h"
 
 class Board
 {
@@ -23,10 +25,16 @@ public:
 
 	void setPos(int x, int y);
 
+	void loadAndPlaySound();
+
+
+
 	bool running() { return isRunning; }
 
 private:
 	Card deckOfCards[4][4]; //array to put all the cards in one deck
+	Player* player;
+	//Player player;
 
 	Card currentCard; //instead of std::string selectedCard;
 	// std::string selectedCard; //to check if card1 and card2 are equal

@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 	game = new Game();
 	
 	game->init("GameWindow", 800, 800, false);
+
 	while (game->running())
 	{
 		frameStart = SDL_GetTicks(); //the number of milliseconds since the SDL library initialized.

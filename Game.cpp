@@ -76,6 +76,7 @@ void Game::handleEvents()
 void Game::update()
 {
 	board->update();
+	//board->loadAndPlaySound();
 }
 
 void Game::renderCard() //Here we add a rendering board. Individual cards are rendered in class Board
