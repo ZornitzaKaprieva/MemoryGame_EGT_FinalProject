@@ -38,27 +38,39 @@ Board::Board(const char* textureSheet)
 	deckOfCards[3][2] = sealO;
 	deckOfCards[3][3] = catP;
 
-	selectedCard = ""; //initializes the selected card as an empty string so it can take the value of the first open card and compare it to the second
+	selectedCard = ""; // the selected card as an empty string so it can take the value of the first open card and compare it to the second
 
 	srand(time(0)); //to randomize the card order for each new game
+
 	// TODO:
-	//+ функция в initBoard: затваря всички карти и разбърква  с ранд (от 0  до 4 с модулно деление 
+	//+ да се финализира функцията в initBoard: затваря всички карти и разбърква с ранд (от 0  до 4 с модулно деление)
 	// (трябва да се разбъркат определен брой пъти, да се изтеглят индекси за 2 кутийки и после да се разменят
 	// връщаме с ранда случайна число - мястото й засега е в конструктора, после ще се променя  
+
+
+	//NEW: to set a position in the cards of the deckOfCards: //win - lose is not corrrect 
+	 
+	//principle that randomizes the cards
+	for (int i = 0; i < 4; i++) { //4 columns
+		for (int j = 0; j < 4; j++) { //4 rows
+			int randomIndex = rand() % 4; //numbers are random from 0 to 3 but can be repeated because of i and j
+			Card temp = deckOfCards[i][j]; //temporary card object to hold the value 
+			deckOfCards[i][j] = deckOfCards[randomIndex][randomIndex];
+			deckOfCards[randomIndex][randomIndex] = temp;
+		}
+	}
 
 	//to set a position in the cards of the deckOfCards:
 	for (int i = 0; i < 4; i++) //4 columns
 	{
 		for (int j = 0; j < 4; j++) //to set card position in each iteration (4x4)
 		{
-			//TODO: a principle that randomizes the cards
-			int randomIndexI = rand() % 4; //numbers are random from 0 to 3 but can be repeated
-			int randomIndexY = rand() % 4; //numbers are random from 0 to 3 but can be repeated
-
-			deckOfCards[randomIndexI][randomIndexY].setPos(j * 200, i * 200);
+			//deckOfCards[randomIndexI][randomIndexY].setPos(j * 200, i * 200);
+			deckOfCards[i][j].setPos(j * 200, i * 200);
 		}
 	}
 }
+
 
 //update card:
 void Board::update()
@@ -125,6 +137,8 @@ void Board::mouseClicking()
 	{
 		std::cout << "card1" << std::endl;
 		selectedCard = deckOfCards[indexY][indexX].getID();
+		deckOfCards[indexY][indexX].setIsFace(true);
+		std::cout << deckOfCards[indexY][indexX].getID() << std::endl;
 
 	}
 	else
@@ -135,16 +149,22 @@ void Board::mouseClicking()
 		{
 			//deckOfCards[indexY][indexX].setIsFace(true); //witout delay
 			//open card
-			std::cout << "win " << std::endl;
+			deckOfCards[indexY][indexX].setIsFace(true);
+			
+			std::cout << "win: " << deckOfCards[indexY][indexX].getID() << std::endl;
 		}
 		else
 		{
 			//close: //deckOfCards[indexY][indexX].setIsFace(true); //with delay 
 			//затваряме предходната карта, отваряме нова карта 
+			deckOfCards[indexY][indexX].setIsFace(false); //ok but tо turn to false the default possition 
+			//TODO да се затваря първоначално обърнатата карта: 
+			// selectedCard = deckOfCards[indexY][indexX].setIsFace(false);
+			 selectedCard = "";
+		
+			std::cout << "lose: " << deckOfCards[indexY][indexX].getID() << std::endl;
 
-			std::cout << "lose  " << std::endl;
 		}
-
 		selectedCard = "";
 	}
 
