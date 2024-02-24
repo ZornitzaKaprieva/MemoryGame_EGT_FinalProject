@@ -21,6 +21,8 @@ public:
 
 	void mouseClicking();
 
+	void setPos(int x, int y);
+
 	bool running() { return isRunning; }
 
 private:
@@ -28,6 +30,9 @@ private:
 
 	Card currentCard; //instead of std::string selectedCard;
 	// std::string selectedCard; //to check if card1 and card2 are equal
+
+	//new:
+	int clickCount = 0;
 
 	bool isFace; //bool for the constructor
 	int xpos;

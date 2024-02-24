@@ -22,7 +22,6 @@ Board::Board(const char* textureSheet)
 	Card sealO("assets/cards/sealOrange.png", "assets/cards/jungle.jpg", "sealO", 0, 0, false);
 	Card catP("assets/cards/catPink.png", "assets/cards/jungle.jpg", "catP", 0, 0, false);
 
-
 	deckOfCards[0][0] = foxG;
 	deckOfCards[0][1] = lionB;
 	deckOfCards[0][2] = raccoonP;
@@ -44,14 +43,13 @@ Board::Board(const char* textureSheet)
 	deckOfCards[3][3] = catP;
 
 	//instead of selectedCard = ""; // the selected card as an empty string so it can take the value of the first open card and compare it to the second
-	
 	Card currentCard("assets/cards/cc.png", "assets/cards/jungle.jpg", "", 0, 0, false);
-	//currentCard.setIsFace(false); //by default the back of the card is displayed;
-	//currentCard.setID(""); //the name of the currentcard - an empty string by default
 	
+	//currentCard.setIsFace(false); //by default the back of the card is displayed;
+	//currentCard.setID(""); //the name of the currentCard - an empty string by default
 
 	srand(time(0)); //to randomize the card order for each new game
-	 
+
 	//principle that randomizes the cards:
 	for (int i = 0; i < 4; i++) { //4 columns
 		for (int j = 0; j < 4; j++) { //4 rows
@@ -72,11 +70,11 @@ Board::Board(const char* textureSheet)
 	}
 }
 
-
 //update card:
 void Board::update()
 {
 	//helping logic
+	//SDL_Delay(100); // wait for 0.1 second before continuing
 }
 
 //render card:
@@ -93,6 +91,8 @@ void Board::renderCard()
 	destRect.w = srcRect.w;
 	destRect.h = srcRect.h;
 
+	
+
 	SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 	//foxG->render(); //ok
 	//deckOfCards[0][0]->render(); //ok
@@ -103,9 +103,9 @@ void Board::renderCard()
 void Board::cardsArrRender()
 {
 
-	for (unsigned int i = 0; i < 4; i++) 
+	for (unsigned int i = 0; i < 4; i++)
 	{
-		for (unsigned int j = 0; j < 4; j++) 
+		for (unsigned int j = 0; j < 4; j++)
 		{
 			deckOfCards[i][j].getID();
 			deckOfCards[i][j].renderCard();
@@ -115,14 +115,8 @@ void Board::cardsArrRender()
 
 void Board::mouseClicking()
 {
-
-	//from Game.cpp
 	SDL_Event event1;
 	SDL_PollEvent(&event1);
-
-	/*if (event1.type = SDL_MOUSEBUTTONDOWN)
-	{*/
-	
 	event1.type = SDL_MOUSEBUTTONDOWN; //by clicking with the mouse
 
 	int mx, my;
@@ -131,58 +125,82 @@ void Board::mouseClicking()
 	SDL_GetMouseState(&mx, &my); //mouse coordinates
 	std::cout << "Coordinates: " << mx << " / " << my << std::endl;
 
-	int indexX = mx / 200; //to open field 
-	int indexY = my / 200;
+	int indexX = mx / 200; //to open field - xpos (0, 1, 2, 3)
+	int indexY = my / 200; //to open field - ypos (0, 1, 2, 3)
 
-	//TODO: to do if statement to close all the cards, is they dont matches;
+	//TODO: to do if statement to close all the cards, is they don't matches;
 
 	//if-else statement to check if cards id matches inside if-else statement to check current card id:
 	if (currentCard.getID() == "") //turn the card face up if id = empty string
 	{
 		currentCard.setID(deckOfCards[indexY][indexX].getID());//set the ID of the current playing card to be the same as the dealt playing card standing in the same field
-		
+
 		deckOfCards[indexY][indexX].setIsFace(true); // flip the playing card (face up)
+		currentCard = deckOfCards[indexY][indexX]; // we assign the value of deckOfCards[indexY][indexX] to the currentCard
+
 		std::cout << "Card1 : ";
-		std::cout << deckOfCards[indexY][indexX].getID() << std::endl; 
+		std::cout << deckOfCards[indexY][indexX].getID() << std::endl;
 	}
 	else
-	{	
+	{
+		//open a pair of cards: 
+		deckOfCards[indexY][indexX].setIsFace(true); //if there is a match: the second card stays open
+		currentCard.setIsFace(true); 
+			
+		//check for a match:
 		if (currentCard.getID() == deckOfCards[indexY][indexX].getID()) //takes the ID of the current card and compares it to the ID of the second open card
 		{
+			std::cout << "current Card: " << currentCard.getID() << std::endl;
 			std::cout << "Card2: " << deckOfCards[indexY][indexX].getID() << std::endl;
-			
-			deckOfCards[indexY][indexX].setIsFace(true); //if there is a match: the second card stays open
-			
+
+			//deckOfCards[indexY][indexX].setIsFace(true); //if there is a match: the second card stays open
+			/*currentCard.setIsFace(true);*/
+
 			std::cout << "WIN!" << std::endl;
 			std::cout << std::endl;
 			currentCard.setID("");
 		}
 		else
-		{
-				deckOfCards[indexY][indexX].setIsFace(true); //to display the second selected card
-				//TODO Delay:
-				deckOfCards[indexY][indexX].setIsFace(false); //to hide the second selected card
-				//not working: //currentCard.setIsFace(deckOfCards[indexY][indexX].getIsFace()); //NEW
-		
-			//auto one_second = 1s;
-			//std::this_thread::sleep_for(one_second);
-			//std::this_thread::sleep_for(std::chrono::seconds(1));
+		{		 	
+			//SDL_Delay(1000);
+			//deckOfCards[indexY][indexX].setIsFace(false);
 			
-			//TODO: to close the flipped current card back before opening a new pair
-			//not working:// selectedCard = deckOfCards[indexY][indexX].setIsFace(false);
-			//not working: currentCard.setIsFace(false);
+			// Wait for 1 second before closing the cards
+			// Close the cards
+			//std::this_thread::sleep_for(1s);
+			//deckOfCards[indexY][indexX].setIsFace(false);
+			//currentCard.setIsFace(false);
+			
+			// Display the second selected card
+			deckOfCards[indexY][indexX].setIsFace(true);
 
+			
+			/*
+			std::string waitString = "Waiting for 1 second...";
+			std::cout << waitString << std::endl;
+			uint32_t startTime = SDL_GetTicks();
+			while (SDL_GetTicks() - startTime < 1000) 
+			{
+				deckOfCards[indexY][indexX].setIsFace(true);
+				currentCard.setIsFace(false);
+			}
+			*/
+			
+			std::cout << "current Card: : " << currentCard.getID() << std::endl;
 			std::cout << "Card2: " << deckOfCards[indexY][indexX].getID() << std::endl;
 			std::cout << "You LOSE! " << std::endl;
 			std::cout << std::endl;
 			currentCard.setID("");
-			
 		}
 	}
-	std::cout << "Screen size: " << w << " / " << h << " " << "Index x-y: " << indexX << " " << indexY << currentCard.getID() << "\n";
+	std::cout << "Screen size: " << w << " / " << h << " " << "Index x-y: " << indexX << " " << indexY << " " << currentCard.getID() << "\n";
 }
-//}
 
+void Board::setPos(int x, int y)
+{
+	xpos = x;
+	ypos = y;
+}
 
 Board::~Board()
 {
