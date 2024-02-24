@@ -12,9 +12,6 @@ public:
 
 	~Board(); //destructor
 
-	void randomizeX();
-	void randomizeY();
-
 	void update(); //to update an already created card
 	void renderCard(); //specific behavior
 
@@ -25,14 +22,12 @@ public:
 	
 	bool running() { return isRunning; }
 
-	//TODO:
-	//void switchFaceBack();
-	//void shuffle(); // shuffles cards in deck
-	//void deal(); // deals shuffled cards
-
 private:
 	Card deckOfCards[4][4]; //array to put all the cards in one deck
-	std::string selectedCard; //to check if card1 and card2 are equal
+
+	Card currentCard; //instead of std::string selectedCard;
+	// std::string selectedCard; //to check if card1 and card2 are equal
+
 	bool isFace; //bool for the constructor
 	int xpos;
 	int ypos;

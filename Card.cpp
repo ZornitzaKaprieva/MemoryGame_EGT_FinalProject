@@ -94,6 +94,11 @@ bool Card::getIsFace()
 	return this->isFace;
 }
 
+void Card::setID(std::string id)
+{
+	this->id = id;
+}
+
 std::string Card::getID()
 {
 	//std::cout << "ID\n";
