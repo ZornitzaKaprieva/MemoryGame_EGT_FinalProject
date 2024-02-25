@@ -3,10 +3,11 @@
 #include <map>
 #include <SDL_mixer.h>
 
-class SoundManager
+class SoundManager //singleton class (one instance at a time)
 {
 public:
 	
+	//to ensure that only one instance of the class can be created, and that the instance is always accessible from any part of the program.
 	static SoundManager* Instance() //static => the constructor can be private
 	{
 		if (s_mInstance == 0)
