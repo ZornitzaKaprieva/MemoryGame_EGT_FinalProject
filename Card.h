@@ -20,6 +20,7 @@ public:
 
 	int getXpos() { return this->xpos; }
 	int getYpos() { return this->ypos; }
+	char* getFaceTexture() {return this->faceTexture;}
 
 	//void mouseClicking();//modified from Board.cpp
 
@@ -35,6 +36,7 @@ private:
 	int xpos;
 	int ypos;
 	bool isFace;
+	char* faceTexture;
 	SDL_Texture* FaceTexture; //texture for card`s back
 	SDL_Texture* BackTexture; //texture for card`s face
 	SDL_Rect srcRect, destRect;

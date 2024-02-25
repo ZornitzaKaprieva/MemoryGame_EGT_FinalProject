@@ -9,6 +9,7 @@ Card::Card(const char* faceTextureSheet, const char* backTextureSheet, std::stri
 	this->xpos = x;
 	this->ypos = y;
 	this->isFace = isFace;
+
 }
 
 //to load BackTexture
@@ -44,12 +45,6 @@ void Card::updateFace()
 	SDL_RenderCopy(Game::renderer, FaceTexture, &srcRect, &destRect);
 }
 
-void Card::setPos(int x, int y) //to be able to set the positions of each card
-{
-	xpos = x;
-	ypos = y;
-}
-
 void Card::renderCard()
 {
 	if (isFace)
@@ -64,6 +59,12 @@ void Card::renderCard()
 	}
 }
 
+
+void Card::setPos(int x, int y) //to be able to set the positions of each card
+{
+	xpos = x;
+	ypos = y;
+}
 
 void Card::setIsFace(bool isFace)
 {

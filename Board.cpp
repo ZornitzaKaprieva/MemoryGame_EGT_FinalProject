@@ -42,7 +42,8 @@ Board::Board(const char* textureSheet)
 	deckOfCards[3][2] = sealO;
 	deckOfCards[3][3] = catP;
 
-	//instead of selectedCard = ""; // the selected card as an empty string so it can take the value of the first open card and compare it to the second
+	//instead of 
+	//selectedCard = ""; // the selected card as an empty string so it can take the value of the first open card and compare it to the second
 	//Card currentCard("assets/cards/cc.png", "assets/cards/jungle.jpg", "", 0, 0, false);
 	player = new Player("Zornitza"); //new
 	currentCard.setIsFace(false); //by default the back of the card is displayed;
@@ -55,7 +56,7 @@ Board::Board(const char* textureSheet)
 		for (int j = 0; j < 4; j++) { //4 rows
 			int randomIndex = rand() % 4; //numbers are random from 0 to 3 but can be repeated because of i and j
 			Card temp = deckOfCards[i][j]; //temporary card object to hold the value 
-			deckOfCards[i][j] = deckOfCards[randomIndex][randomIndex]; //
+			deckOfCards[i][j] = deckOfCards[randomIndex][randomIndex]; // to swap current card with another random card
 			deckOfCards[randomIndex][randomIndex] = temp; //
 		}
 	}
@@ -71,8 +72,10 @@ Board::Board(const char* textureSheet)
 
 	SoundManager::Instance()->load("assets/sounds/win.wav", "win", 0); //0 = efects (switch in SaoundManager.cpp
 	SoundManager::Instance()->load("assets/sounds/lose.wav", "lose", 0);
-	SoundManager::Instance()->load("assets/sounds/gameLose.mp3", "gameLose", 1);
-	SoundManager::Instance()->load("assets/sounds/gameOver.wav", "gameOver", 1);	
+	//SoundManager::Instance()->load("assets/sounds/gameLose.mp3", "gameLose", 1);
+	SoundManager::Instance()->load("assets/sounds/gameOver.wav", "gameOver", 0);	
+	//SoundManager::Instance()->load("assets/sounds/newRecord.mp3", "newRecord", 1);
+	
 }
 
 //update card:
@@ -100,7 +103,9 @@ void Board::renderCard()
 	//foxG->render(); //ok
 	//deckOfCards[0][0]->render(); //ok
 
-	cardsArrRender(); //ok
+	cardsArrRender(); //ok ///////////
+
+	//currentCard.renderCard(); ////////
 }
 
 void Board::cardsArrRender()
@@ -137,14 +142,17 @@ void Board::mouseClicking()
 	//TODO: checks: Is the game over? Is it a new record? Is it a loss? 
 
 	//if-else statement to check if cards id matches inside if-else statement to check current card id:
-	if (currentCard.getName() == "") //turn the card face up if id = empty string
+	if (currentCard.getName() == "" && currentCard.getIsFace() == false) //turn the card face up if id = empty string
 	{
-
-		currentCard.setName(deckOfCards[indexY][indexX].getName());//set the ID of the current playing card to be the same as the dealt playing card standing in the same field
-
+		//assign name, position, bool:
+		currentCard.setName(deckOfCards[indexY][indexX].getName());//set the name of the current playing card to be the same as the dealt playing card standing in the same field
+		currentCard.setPos(deckOfCards[indexY][indexX].getYpos(), deckOfCards[indexY][indexX].getXpos());
+		
 		deckOfCards[indexY][indexX].setIsFace(true); // flip the playing card (face up)
-		currentCard = deckOfCards[indexY][indexX]; // we assign the value of deckOfCards[indexY][indexX] to the currentCard
+		currentCard.setIsFace(deckOfCards[indexY][indexX].getIsFace());
 
+		//Card tempCard(deckOfCards[indexY][indexX].getFaceTexture(), "assets/cards/jungle.png", deckOfCards[indexY][indexX].getName(), indexY, indexY, false);
+		
 		std::cout << "Card1 : ";
 		std::cout << deckOfCards[indexY][indexX].getName() << std::endl;
 		std::cout << std::endl;
@@ -152,11 +160,12 @@ void Board::mouseClicking()
 	}
 	else
 	{
+		player->addMoves(); //add new move (2 open cards = 1 move)
+		
 		//open a pair of cards: 
 		deckOfCards[indexY][indexX].setIsFace(true); //if there is a match: the second card stays open
-		currentCard.setIsFace(true);
-		player->addMoves(); //add new move (2 open cards = 1 move)
-
+		//currentCard.setIsFace(true);
+		
 		//check for a match:
 		if (currentCard.getName() == deckOfCards[indexY][indexX].getName()) //takes the ID of the current card and compares it to the ID of the second open card
 		{
@@ -167,26 +176,21 @@ void Board::mouseClicking()
 			/*currentCard.setIsFace(true);*/
 
 			std::cout << "WIN!" << std::endl;
+			std::cout << std::endl;
+
 			SoundManager::Instance()->playSound("win", 0, 0);
 
 			currentCard.setName("");
 			player->addPoints();
-
-			//player->addMoves();
-			std::cout << std::endl;
 			twoCardsSelected = true;
 		}
 		else
 		{
 			// Display the second selected card:
 			//deckOfCards[indexY][indexX].setIsFace(true);
-
-
 			// Wait for 1 second before closing the cards
 			// //SDL_Delay(1000); //1st option
 			// //std::this_thread::sleep_for(1s); //2nd option
-
-
 			//3rd option
 			/*
 			std::string waitString = "Waiting for 1 second...";
@@ -200,8 +204,14 @@ void Board::mouseClicking()
 			*/
 
 			// Close the cards
+			deckOfCards[indexY][indexX].setIsFace(true);
+			if (deckOfCards[indexY][indexX].getIsFace() == true)
+			{
+				//SDL_Delay(1000);
 			deckOfCards[indexY][indexX].setIsFace(false);
-			currentCard.setIsFace(false); //did not work
+			}
+			
+			currentCard.setIsFace(deckOfCards[indexY][indexX].getIsFace()); //did not work
 
 			std::cout << "current Card: : " << currentCard.getName() << std::endl;
 			std::cout << "Card2: " << deckOfCards[indexY][indexX].getName() << std::endl;
@@ -249,7 +259,7 @@ void Board::mouseClicking()
 	}
 	else
 	{
-		SoundManager::Instance()->playSound("gameOver", 0, 0); //did not work
+		//SoundManager::Instance()->playSound("gameOver", 0, 0); //did not work
 		//TODO: new record sound !
 		//TODO: load cards again
 	}
