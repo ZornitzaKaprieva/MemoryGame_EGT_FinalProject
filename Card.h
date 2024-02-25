@@ -14,8 +14,8 @@ public:
 	void setIsFace(bool face); //setter for bool isFace
 	bool getIsFace(); //getter for bool isFace
 
-	void setID(std::string id);
-	std::string getID(); //for randomize cards in array 
+	void setName(std::string name);
+	std::string getName(); //for randomize cards in array 
 	void setPos(int x, int y); // for randomize cards in array 
 
 	int getXpos() { return this->xpos; }
@@ -30,7 +30,7 @@ private:
 	void updateBack(); //void drawBack();
 	void updateFace(); //void drawFace();
 
-	std::string id;
+	std::string name;
 
 	int xpos;
 	int ypos;

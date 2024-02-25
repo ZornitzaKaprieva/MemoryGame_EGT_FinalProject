@@ -1,11 +1,11 @@
 #include "Card.h"
 #include "Game.h"
 
-Card::Card(const char* faceTextureSheet, const char* backTextureSheet, std::string id, int x, int y, bool isFace)
+Card::Card(const char* faceTextureSheet, const char* backTextureSheet, std::string name, int x, int y, bool isFace)
 {
 	FaceTexture = TextureManager::loadTexture(faceTextureSheet); //to load the face texture
 	BackTexture = TextureManager::loadTexture(backTextureSheet); //to load the back texture
-	this->id = id;
+	this->name = name;
 	this->xpos = x;
 	this->ypos = y;
 	this->isFace = isFace;
@@ -70,39 +70,19 @@ void Card::setIsFace(bool isFace)
 	this->isFace = isFace;
 }
 
-//TODO: 
-void Card::switchFaceBack()
-{
-	//todo ne razboti 6
-	/*SDL_Event event2;
-
-	SDL_PollEvent(&event2);
-
-	event2.type = SDL_MOUSEBUTTONDOWN;
-
-	std::cout << "event2.type = SDL_MOUSEBUTTONDOWN;" << std::endl;*/
-
-	/*if (this->isFace = false)
-		setIsFace(true);
-
-	if (this->isFace = true)
-		setIsFace(false);*/
-}
-
 bool Card::getIsFace()
 {
 	return this->isFace;
 }
 
-void Card::setID(std::string id)
+void Card::setName(std::string name)
 {
-	this->id = id;
+	this->name = name;
 }
 
-std::string Card::getID()
+std::string Card::getName()
 {
-	//std::cout << "ID\n";
-	return this->id;
+	return this->name;
 }
 
 Card::~Card()
