@@ -140,9 +140,11 @@ void Board::mouseClicking()
 	//TODO: to do if statement to close all the cards, is they don't matches;
 	//TODO: not to be able to click on already opened cards
 	//TODO: checks: Is the game over? Is it a new record? Is it a loss? 
+	int tempIndexY = 0;
+	int tempIndexX = 0;
 
 	//if-else statement to check if cards id matches inside if-else statement to check current card id:
-	if (currentCard.getName() == "" && currentCard.getIsFace() == false) //turn the card face up if id = empty string
+	if (currentCard.getName() == "") //turn the card face up if id = empty string
 	{
 		//assign name, position, bool:
 		currentCard.setName(deckOfCards[indexY][indexX].getName());//set the name of the current playing card to be the same as the dealt playing card standing in the same field
@@ -211,7 +213,7 @@ void Board::mouseClicking()
 			deckOfCards[indexY][indexX].setIsFace(false);
 			}
 			
-			currentCard.setIsFace(deckOfCards[indexY][indexX].getIsFace()); //did not work
+			currentCard.setIsFace(false); //did not work
 
 			std::cout << "current Card: : " << currentCard.getName() << std::endl;
 			std::cout << "Card2: " << deckOfCards[indexY][indexX].getName() << std::endl;
