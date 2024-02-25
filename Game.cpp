@@ -45,8 +45,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	}
 
 	//each card is initialized in Board separately. Here we only initialize the board:
-	board = new Board("assets/cards/jungle-01.jpg");
+	board = new Board("assets/cards/jungle-01.png");
 	std::cout << "Board created.\n";
+
 }
 
 void Game::handleEvents()
@@ -67,6 +68,9 @@ void Game::handleEvents()
 		
 	 board->mouseClicking(); //from class Board
 	 break;
+
+	//case SDL_AddTimer(): //TODO
+	//	break;
 
 	default:
 		break;

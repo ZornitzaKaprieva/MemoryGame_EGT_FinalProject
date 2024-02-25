@@ -37,8 +37,6 @@ int Player::getMistakes()
 	return this-> mistakes;
 }
 
-
-
 void Player::addMoves()
 {
 	this->moves++;

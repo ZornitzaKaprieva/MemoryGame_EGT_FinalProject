@@ -18,16 +18,11 @@ public:
 	void update(); //to update an already created card
 	void renderCard(); //specific behavior
 
-
 	void cardsArrRender(); //to render from array
 
 	void mouseClicking();
 
-	void setPos(int x, int y);
-
 	void loadAndPlaySound();
-
-
 
 	bool running() { return isRunning; }
 
@@ -45,6 +40,8 @@ private:
 	bool isFace; //bool for the constructor
 	int xpos;
 	int ypos;
+
+	
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
 	SDL_Renderer* renderer;

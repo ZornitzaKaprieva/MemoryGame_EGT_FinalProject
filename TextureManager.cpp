@@ -1,7 +1,7 @@
 #include "TextureManager.h"
 #include "Game.h"
 
-////implement LoadTexture structure:
+//implement LoadTexture structure:
 SDL_Texture* TextureManager::loadTexture(const char* fileName)
 {
     //generate the texture: 

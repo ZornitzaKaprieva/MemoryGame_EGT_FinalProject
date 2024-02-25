@@ -18,11 +18,12 @@ public:
 	std::string getID(); //for randomize cards in array 
 	void setPos(int x, int y); // for randomize cards in array 
 
+	int getXpos() { return this->xpos; }
+	int getYpos() { return this->ypos; }
+
 	//void mouseClicking();//modified from Board.cpp
 
 	~Card(); //destructor
-
-
 
 private:
 	//separate methods for the back and face of the card:
@@ -30,7 +31,6 @@ private:
 	void updateFace(); //void drawFace();
 
 	std::string id;
-
 
 	int xpos;
 	int ypos;
