@@ -1,4 +1,3 @@
-﻿
 #pragma once
 
 #include<string>
@@ -22,25 +21,23 @@ public:
 
 	void mouseClicking();
 
+	void matching(bool isMatching); //TODO to display for a while mismatching cards
+
 	void loadAndPlaySound();
 
 	bool running() { return isRunning; }
 
 private:
 	Card deckOfCards[4][4]; //array to put all the cards in one deck
-	Player* player;
-	//Player player;
+	Player* player; //Player player;
 
-	Card currentCard; //instead of std::string selectedCard;
-	// std::string selectedCard; //to check if card1 and card2 are equal
+	Card currentCard; //instead of std::string selectedCard; //to check if card1 and card2 are equal
 
-	//new:
 	int clickCount = 0;
-
+	bool isMatching = false;
 	bool isFace; //bool for the constructor
 	int xpos;
 	int ypos;
-
 	
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
