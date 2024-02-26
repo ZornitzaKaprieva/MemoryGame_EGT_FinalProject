@@ -58,7 +58,7 @@ Board::Board(const char* textureSheet)
 			int randomIndex = rand() % 4; //numbers are random from 0 to 3 but can be repeated because of i and j
 			Card temp = deckOfCards[i][j]; //temporary card object to hold the value 
 			deckOfCards[i][j] = deckOfCards[randomIndex][randomIndex]; // to swap current card with another random card
-			deckOfCards[randomIndex][randomIndex] = temp; //
+			deckOfCards[randomIndex][randomIndex] = temp; //to swap the current card with the randomly selected card.
 		}
 	}
 
@@ -76,7 +76,6 @@ Board::Board(const char* textureSheet)
 	//SoundManager::Instance()->load("assets/sounds/gameLose.mp3", "gameLose", 1);
 	SoundManager::Instance()->load("assets/sounds/gameOver.wav", "gameOver", 0);	
 	//SoundManager::Instance()->load("assets/sounds/newRecord.mp3", "newRecord", 1);
-	
 }
 
 //update card:
@@ -106,7 +105,6 @@ void Board::renderCard()
 
 	cardsArrRender(); //ok 
 
-	//currentCard.renderCard(); ////////
 }
 
 void Board::cardsArrRender()
@@ -223,7 +221,6 @@ void Board::mouseClicking()
 	std::cout << "Points: " << player->getPoints() << std::endl;
 	std::cout << "Screen size: " << w << " / " << h << " " << "Index x-y: " << indexX << " " << indexY << " " << currentCard.getName() << "\n";
 
-	//TODO:
 	bool isAllCardsOpened =
 		deckOfCards[0][0].getIsFace() == true &&
 		deckOfCards[0][1].getIsFace() == true &&
