@@ -75,9 +75,11 @@ Board::Board(const char* textureSheet)
 
 	SoundManager::Instance()->load("assets/sounds/win.wav", "win", 0); //0 = effects (switch in SoundManager.cpp)
 	SoundManager::Instance()->load("assets/sounds/lose.wav", "lose", 0);
-	//SoundManager::Instance()->load("assets/sounds/gameLose.mp3", "gameLose", 1);
+	SoundManager::Instance()->load("assets/sounds/gameLose.mp3", "gameLose", 1);
 	SoundManager::Instance()->load("assets/sounds/gameOver.wav", "gameOver", 0);
 	//SoundManager::Instance()->load("assets/sounds/newRecord.mp3", "newRecord", 1);
+
+	//isMatching = false; //bool for matching(isMatching);
 }
 
 //update card:
@@ -85,9 +87,17 @@ void Board::update()
 {
 	//helping logic
 
-	//crash // closeCards(deckOfCards[yposCardOfDeck][xposCardOfDeck]);
-	//crash // matching(deckOfCards[yposCardOfDeck][xposCardOfDeck].getName());
+	SDL_Delay(0); //try to neutralize SDL_Delay(1000) from matching(isMatching);
+	//matching(isMatching); //calling this function multiple times, event handling does not work
 
+	//did  not work:
+	/*if (isMatching = false)
+	{
+		SDL_Delay(1000);
+
+		deckOfCards[yposCardOfDeck / 200][xposCardOfDeck / 200].setIsFace(false);
+		deckOfCards[currentCard.getXpos() / 200][currentCard.getYpos() / 200].setIsFace(false);
+	}*/
 }
 
 //render card:
@@ -122,6 +132,7 @@ void Board::cardsArrRender()
 	}
 }
 
+//TODO method with flags game lose/win
 void Board::mouseClicking()
 {
 	SDL_Event event1;
@@ -182,9 +193,16 @@ void Board::mouseClicking()
 				std::cout << "Card2 (deckOfCards) Name: " << deckOfCards[indexY][indexX].getName() << std::endl;
 
 				currentCard.setPos(deckOfCards[indexY][indexX].getYpos(), deckOfCards[indexY][indexX].getXpos()); // set xpos i ypos for currentCard
-				currentCard.setIsFace(true); //don`t know if is forking
 
+				//currentCard.setIsFace(true); //don`t know if is working
 				deckOfCards[indexY][indexX].setIsFace(true); //if there is a match: the second card stays open
+				//== (for matching func):
+				//xposCardOfDeck = deckOfCards[indexY][indexX].getXpos();
+				//yposCardOfDeck = deckOfCards[indexY][indexX].getYpos();
+				//deckOfCards[yposCardOfDeck][xposCardOfDeck].setIsFace(true);//ok
+
+				isMatching = true; //new
+				//matching(isMatching); //ok
 
 				std::cout << "WIN!" << std::endl;
 				std::cout << "CARD 2 (deckOfCards) WIN POS: Y: " << deckOfCards[indexY][indexX].getYpos() << "  X: " << deckOfCards[indexY][indexX].getXpos() << std::endl;
@@ -199,28 +217,24 @@ void Board::mouseClicking()
 				std::cout << "1st else - 2nd if: deckOfCards Y: " << deckOfCards[indexY][indexX].getYpos() << " X: " << deckOfCards[indexY][indexX].getXpos() << std::endl;
 				std::cout << "1st else - 2nd if: Current card  - Y: " << currentCard.getYpos() << " X: " << currentCard.getXpos() << std::endl;
 				std::cout << "1st else: posCurrentCard  - Ypos: " << yposCurrentCard << " Xpos: " << xposCurrentCard << std::endl;
-				twoCardsSelected = true; //is not used
 			}
 			else
 			{
-
 				// Display /Hide the second selected card:
-				deckOfCards[indexY][indexX].setIsFace(false);
-				/*SDL_Delay(1000); //did not work
-				deckOfCards[indexY][indexX].setIsFace(false); *///TODO: Wait for 1 second before closing the cards: //SDL_Delay(1000); OR //std::this_thread::sleep_for(1s); 
+				//deckOfCards[indexY][indexX].setIsFace(true); //waits one second and opens: nothing changes if I replace true with false in matching()
+				deckOfCards[indexY][indexX].setIsFace(false);  //doesn`t open 2nd card: nothing changes if I replace true with false in matching()
+				isMatching = false;
+				//matching(isMatching); // ok for current card only 
 
-				//prep for void Board::update() -> crash:
+
+				///TODO: Wait for 1 second before closing the cards: //SDL_Delay(1000); OR //std::this_thread::sleep_for(1s); 
+
+				//assign values for 2nd card:
 				xposCardOfDeck = deckOfCards[indexY][indexX].getXpos();
 				yposCardOfDeck = deckOfCards[indexY][indexX].getYpos();
+
+				//TEST:
 				std::cout << "y/xposCardOfDeck = deckOfCards[indexY][indexX].getY/Xpos(): Y: " << deckOfCards[indexY][indexX].getYpos() << " X:" << deckOfCards[indexY][indexX].getXpos() << std::endl;
-
-				// Close the cards (with bool Board::matching(bool isMatching))
-				//matching(currentCard.getName()); //did not work
-				//matching(deckOfCards[indexY][indexX].getName()); //did not work
-
-				// Close the cards (closeCard(Card card))
-				//closeCard(deckOfCards[indexY][indexX]); //did not work
-
 				std::cout << "current Card: : " << currentCard.getName() << std::endl;
 				std::cout << "Card2 (deckOfCards): " << deckOfCards[indexY][indexX].getName() << std::endl;
 
@@ -232,9 +246,10 @@ void Board::mouseClicking()
 				int newYpos = currentCard.getYpos() / 200;
 				int newXpos = currentCard.getXpos() / 200;
 				std::cout << "1st else - 2nd else: newYpos: " << newYpos << " newXpos: " << newXpos << std::endl;
+				// to close 1st card: now in matching func: //
 				deckOfCards[newXpos][newYpos].setIsFace(false); // switch positions X and Y
-				std::cout << "NEW: deckOfCards[newXpos][newYpos] Y: " << deckOfCards[newXpos][newYpos].getYpos() << " X: " << deckOfCards[newXpos][newYpos].getXpos() << std::endl;
 
+				std::cout << "NEW: deckOfCards[newXpos][newYpos] Y: " << deckOfCards[newXpos][newYpos].getYpos() << " X: " << deckOfCards[newXpos][newYpos].getXpos() << std::endl;
 				std::cout << "You LOSE! " << std::endl;
 				currentCard.setName("");
 				SoundManager::Instance()->playSound("lose", 0, 0);
@@ -242,7 +257,6 @@ void Board::mouseClicking()
 				player->addMistake();
 				std::cout << "Mistakes: " << player->getMistakes() << std::endl;
 				std::cout << std::endl;
-				twoCardsSelected = true; //is not used
 			}
 		}
 
@@ -252,8 +266,8 @@ void Board::mouseClicking()
 		std::cout << "Points: " << player->getPoints() << std::endl;
 		std::cout << "Screen size: " << w << " / " << h << " " << "Index x-y: " << indexX << " " << indexY << " " << currentCard.getName() << "\n";
 		std::cout << std::endl;
-		
-		 this->isAllCardsOpened =
+
+		this->isAllCardsOpened =
 			deckOfCards[0][0].getIsFace() == true &&
 			deckOfCards[0][1].getIsFace() == true &&
 			deckOfCards[0][2].getIsFace() == true &&
@@ -275,38 +289,79 @@ void Board::mouseClicking()
 			deckOfCards[3][3].getIsFace() == true;
 
 		//Check result and moves (max moves = 20))
-		if (player->getMoves() == 5) // && !this->isAllCardsOpened) //TODO: to end a game 
+		if (player->getMoves() == 20 && !this->isAllCardsOpened) // && !this->isAllCardsOpened) //TODO: to end a game 
 		{
-			SoundManager::Instance()->playMusic("gameLose", 0, 0); //did not work gameLose
-			//TODO: load cards again
+			SoundManager::Instance()->playMusic("gameLose", 0, 0); //ok - gameLose
+
+			//TODO: endGame
+
+			//to open all the cards of the deckOfCards:
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					deckOfCards[i][j].setIsFace(true);
+				}
+			}
+
+			//load cards again: did not work
+			//SDL_Event event2;
+			//SDL_PollEvent(&event2);
+			//if (event2.type = SDL_MOUSEBUTTONDOWN) //by clicking with the mouse
+			//{
+			//	SDL_Delay(500);
+			//	for (int i = 0; i < 4; i++)
+			//	{
+			//		for (int j = 0; j < 4; j++)
+			//		{
+			//			deckOfCards[i][j].setIsFace(false);
+			//		}
+			//	}
+			//}
+
 		}
 		else if (this->isAllCardsOpened) //ok 
 		{
-			SoundManager::Instance()->playSound("gameOver", 0, 0); //did not work
+			SoundManager::Instance()->playSound("gameOver", 0, 0); //ok  - gameOver
 			//TODO: new record sound !
+			// TODO: endGame
 			//TODO: load cards again
 		}
 	}
 }
 
-void Board::matching(std::string name1)
+void Board::matching(bool isMatching)
 {
-	if (name1 != deckOfCards[yposCardOfDeck][xposCardOfDeck].getName())
+	if (isMatching == false)
 	{
+		deckOfCards[xposCardOfDeck / 200][yposCardOfDeck / 200].setIsFace(false); //false: did not work
 
-		//deckOfCards[yposCurrentCard][xposCurrentCard].setIsFace(false); //crash
+		//int newYpos = yposCardOfDeck / 200;
+		//int newXpos = xposCardOfDeck / 200;
+		//deckOfCards[newXpos][newYpos].setIsFace(false); //true
+
 		SDL_Delay(1000);
-		deckOfCards[yposCardOfDeck][xposCardOfDeck].setIsFace(false); //open pos 0 0 
+		std::cout << "deckOfCards[yposCardOfDeck / 200][xposCardOfDeck / 200]: Y:"
+			<< deckOfCards[yposCardOfDeck / 200][xposCardOfDeck / 200].getYpos() << " X:"
+			<< deckOfCards[yposCardOfDeck / 200][xposCardOfDeck / 200].getXpos() << std::endl;
 
-		std::cout << "void Board::matching(bool isMatching)" << std::endl;
+		deckOfCards[xposCurrentCard / 200][yposCurrentCard / 200].setIsFace(false); // ok (in else too)
+		std::cout << "deckOfCards[xposCurrentCard / 200][yposCurrentCard / 200].setIsFace(false);\n";
+		std::cout << "False: void Board::matching(bool isMatching)" << std::endl;
 	}
+	//
+	//if (isMatching == true)
+	//{
+	//	SDL_Delay(0); //try to neutralize SDL_Delay(1000)
+
+	//	deckOfCards[yposCardOfDeck][xposCardOfDeck].setIsFace(true); // no need to divide by 200
+	//	//std::cout << "True: void Board::matching(bool isMatching)" << std::endl;}
+	//	
+	//}
+
+	isMatching = false; // no difference with true
 }
 
-void Board::closeCard(Card card)
-{
-	SDL_Delay(1000);
-	card.setIsFace(false);
-}
 
 Board::~Board()
 {
